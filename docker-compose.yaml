@@ -1,0 +1,57 @@
+version: "3.9"
+#=================================================================================================================#
+name: mart_project
+#================================================================================================================#
+
+services:
+#===============================================================================================================#
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    depends_on:
+        - postgres_db
+    ports:
+      - "8000:8000" 
+    volumes:
+      - ./user-service:/code/
+#==============================================================================================================#
+  postgres_db:
+    image: postgres:latest
+    restart: always
+    container_name: PostgresCont
+    environment:
+        - POSTGRES_USER=developerhammad
+        - POSTGRES_PASSWORD=secret
+        - POSTGRES_DB=online_mart
+    ports:
+        - '5433:5432'
+    volumes:
+        - postgres_db:/var/lib/postgresql/data
+#===============================================================================================================#
+  pgadmin:
+    image: dpage/pgadmin4:8.6
+    restart: always
+    container_name: PgAdmin4Cont
+    ports:
+      - "8010:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=hammad@mart.com
+      - PGADMIN_DEFAULT_PASSWORD=mart
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres_db
+#==================================================================================================================#
+
+volumes:
+  postgres_db:
+    driver: local
+  pgadmin:
+    driver: local
+#===================================================================================================================#
+networks:
+  default:
+    driver: bridge
+
+#===================================================================================================================#
