@@ -15,6 +15,7 @@ uvicorn = "^0.32.0"
 psycopg = "^3.2.3"
 psycopg-binary = "^3.2.3"
 python-multipart = "^0.0.17"
+dapr-ext-fastapi = "^1.14.0"
 
 
 [build-system]
